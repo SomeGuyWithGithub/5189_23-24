@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.code;
+package org.firstinspires.ftc.teamcode.code.teleop;
 
 import android.util.Size;
 
@@ -97,11 +97,8 @@ public class DriveSample extends LinearOpMode {
 
 
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         slideR.setDirection(DcMotorSimple.Direction.FORWARD);
