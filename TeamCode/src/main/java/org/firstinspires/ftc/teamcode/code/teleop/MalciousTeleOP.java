@@ -1,13 +1,9 @@
 package org.firstinspires.ftc.teamcode.code.teleop;
 
-import android.util.Size;
-
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -15,15 +11,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import java.lang.Math;
 
-import org.checkerframework.checker.units.qual.C;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.vision.VisionPortal;
 
 @TeleOp
-@Config
-public class DriveSample extends LinearOpMode {
+public class MalciousTeleOP extends LinearOpMode {
 
     private void wristServo(double pos, Servo s1, Servo s2) {
         s1.setPosition(pos);
@@ -65,11 +56,6 @@ public class DriveSample extends LinearOpMode {
         RESET,
         GRAB
     }
-
-    public static boolean armIsReverse = false;
-    public static double armPosition = 0.;
-    public static boolean jointIsReverse = true;
-    public static double jointPosition = 0.;
 
     public double motorPower = 1.;
 
