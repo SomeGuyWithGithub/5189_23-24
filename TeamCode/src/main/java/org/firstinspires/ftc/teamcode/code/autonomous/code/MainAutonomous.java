@@ -121,7 +121,7 @@ public class MainAutonomous extends OpMode
                         }
                         break;
                     case PLACE:
-                        yellowArm.setPosition(0.51);
+                        yellowArm.setPosition(0.6);
                         if (runtime.time() > 1) {
                             yellowArm.setPosition(0);
                             state = State.SCORE;

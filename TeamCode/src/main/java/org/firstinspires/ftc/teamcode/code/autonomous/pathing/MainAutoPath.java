@@ -32,11 +32,11 @@ public class MainAutoPath {
     public void initVarsAndCamera(HardwareMap hardwareMap, SampleMecanumDrive drive, Telemetry telemetry, String color, String startDis, String endDis) {
         // generate lines that the purple placement will depend upon
         // changes whether the bot starts close or far side
-        centerLine = 12.;
+        centerLine = 14;
         leftLine = 8.;
         rightLine = 15.5;
         if (Objects.equals(startDis, "far")) {
-            centerLine = -35.;
+            centerLine = -37.5;
             leftLine = -39.;
             rightLine = -31.;
         }
@@ -95,7 +95,7 @@ public class MainAutoPath {
                             .build();
                 } else if (Objects.equals(position, "mid")) {
                     purplePath = drive.trajectorySequenceBuilder(startPos)
-                            .lineTo(new Vector2d(centerLine, -31))
+                            .lineTo(new Vector2d(centerLine, -30.75))
                             .lineTo(new Vector2d(centerLine, -42))
                             .turn(Math.toRadians(-90))
                             .build();
@@ -116,13 +116,13 @@ public class MainAutoPath {
                             .build();
                 } else if (Objects.equals(position, "mid")) {
                     purplePath = drive.trajectorySequenceBuilder(startPos)
-                            .lineTo(new Vector2d(centerLine, -31))
+                            .lineTo(new Vector2d(centerLine, -30.75))
                             .lineTo(new Vector2d(centerLine, -42))
                             .build();
                 } else {
                     purplePath = drive.trajectorySequenceBuilder(startPos)
                             .lineTo(new Vector2d(leftLine - 10, -50))
-                            .lineToLinearHeading(new Pose2d(rightLine + 1, -30, Math.toRadians(180)))
+                            .lineToLinearHeading(new Pose2d(rightLine - 1, -30, Math.toRadians(180)))
                             .lineTo(new Vector2d(leftLine, -30))
                             .lineTo(new Vector2d(centerLine, -42))
                             .turn(Math.toRadians(90))
@@ -158,7 +158,7 @@ public class MainAutoPath {
                 if (Objects.equals(position, "left")) {
                     purplePath = drive.trajectorySequenceBuilder(startPos)
                             .lineTo(new Vector2d(leftLine - 10, 50))
-                            .lineToLinearHeading(new Pose2d(rightLine, 30, Math.toRadians(180)))
+                            .lineToLinearHeading(new Pose2d(rightLine - 1, 30, Math.toRadians(180)))
                             .lineTo(new Vector2d(leftLine, 30))
                             .lineTo(new Vector2d(centerLine, 42))
                             .build();
@@ -212,7 +212,7 @@ public class MainAutoPath {
     public TrajectorySequence makeYellowPlacePath() {
         if (Objects.equals(position, "left")) {
             yellowPlacePath = drive.trajectorySequenceBuilder(endPos)
-                    .lineTo(new Vector2d(50, -36 * color))
+                    .lineTo(new Vector2d(50, -34 * color))
                     .build();
             endPos = new Pose2d(50, -36 * color, Math.toRadians(180));
         } else if (Objects.equals(position, "mid")) {
