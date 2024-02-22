@@ -88,20 +88,21 @@ public class MainAutoPath {
                 if (Objects.equals(position, "left")) {
                     purplePath = drive.trajectorySequenceBuilder(startPos)
                             .lineTo(new Vector2d(rightLine + 10, -50))
-                            .lineToLinearHeading(new Pose2d(leftLine, -30, Math.toRadians(0)))
-                            .lineTo(new Vector2d(rightLine, -30))
+                            .lineToLinearHeading(new Pose2d(leftLine + 1, -30, Math.toRadians(0)))
+                            .lineTo(new Vector2d(rightLine + 1, -30))
                             .lineTo(new Vector2d(centerLine, -42))
                             .turn(Math.toRadians(180))
                             .build();
                 } else if (Objects.equals(position, "mid")) {
                     purplePath = drive.trajectorySequenceBuilder(startPos)
-                            .lineTo(new Vector2d(centerLine, -30.75))
+                            .lineTo(new Vector2d(centerLine, -40))
+                            .lineTo(new Vector2d(centerLine, -32))
                             .lineTo(new Vector2d(centerLine, -42))
                             .turn(Math.toRadians(-90))
                             .build();
                 } else {
                     purplePath = drive.trajectorySequenceBuilder(startPos)
-                            .lineTo(new Vector2d(rightLine + 7, -33))
+                            .lineTo(new Vector2d(rightLine + 7, -38))
                             .lineTo(new Vector2d(rightLine + 7, -45))
                             .lineTo(new Vector2d(centerLine, -42))
                             .turn(Math.toRadians(-90))
@@ -110,13 +111,15 @@ public class MainAutoPath {
             } else if (Objects.equals(startDis, "far")) {
                 if (Objects.equals(position, "left")) {
                     purplePath = drive.trajectorySequenceBuilder(startPos)
-                            .lineTo(new Vector2d(leftLine - 7.5, -33))
+                            .lineTo(new Vector2d(leftLine - 7.5, -38))
                             .lineTo(new Vector2d(leftLine - 7.5, -45))
                             .lineTo(new Vector2d(centerLine, -42))
+                            .turn(Math.toRadians(-90))
                             .build();
                 } else if (Objects.equals(position, "mid")) {
                     purplePath = drive.trajectorySequenceBuilder(startPos)
-                            .lineTo(new Vector2d(centerLine, -30.75))
+                            .lineTo(new Vector2d(centerLine, -40))
+                            .lineTo(new Vector2d(centerLine, -32))
                             .lineTo(new Vector2d(centerLine, -42))
                             .build();
                 } else {
@@ -125,7 +128,6 @@ public class MainAutoPath {
                             .lineToLinearHeading(new Pose2d(rightLine - 1, -30, Math.toRadians(180)))
                             .lineTo(new Vector2d(leftLine, -30))
                             .lineTo(new Vector2d(centerLine, -42))
-                            .turn(Math.toRadians(90))
                             .build();
                 }
             }
@@ -134,14 +136,15 @@ public class MainAutoPath {
             if (Objects.equals(startDis, "close")) {
                 if (Objects.equals(position, "left")) {
                     purplePath = drive.trajectorySequenceBuilder(startPos)
-                            .lineTo(new Vector2d(rightLine + 7, 33))
+                            .lineTo(new Vector2d(rightLine + 7, 38))
                             .lineTo(new Vector2d(rightLine + 7, 45))
                             .lineTo(new Vector2d(centerLine, 42))
                             .turn(Math.toRadians(90))
                             .build();
                 } else if (Objects.equals(position, "mid")) {
                     purplePath = drive.trajectorySequenceBuilder(startPos)
-                            .lineTo(new Vector2d(centerLine, 31))
+                            .lineTo(new Vector2d(centerLine, 40))
+                            .lineTo(new Vector2d(centerLine, 32))
                             .lineTo(new Vector2d(centerLine, 42))
                             .turn(Math.toRadians(90))
                             .build();
@@ -164,13 +167,14 @@ public class MainAutoPath {
                             .build();
                 } else if (Objects.equals(position, "mid")) {
                     purplePath = drive.trajectorySequenceBuilder(startPos)
-                            .lineTo(new Vector2d(centerLine, 31))
+                            .lineTo(new Vector2d(centerLine, 40))
+                            .lineTo(new Vector2d(centerLine, 32))
                             .lineTo(new Vector2d(centerLine, 42))
                             .turn(Math.toRadians(90))
                             .build();
                 } else {
                     purplePath = drive.trajectorySequenceBuilder(startPos)
-                            .lineTo(new Vector2d(leftLine - 7.5, 33))
+                            .lineTo(new Vector2d(leftLine - 7.5, 38))
                             .lineTo(new Vector2d(leftLine - 7.5, 45))
                             .lineTo(new Vector2d(centerLine, 42))
                             .turn(Math.toRadians(90))
@@ -212,19 +216,19 @@ public class MainAutoPath {
     public TrajectorySequence makeYellowPlacePath() {
         if (Objects.equals(position, "left")) {
             yellowPlacePath = drive.trajectorySequenceBuilder(endPos)
-                    .lineTo(new Vector2d(50, -34 * color))
+                    .lineTo(new Vector2d(53, -32 * color))
                     .build();
-            endPos = new Pose2d(50, -36 * color, Math.toRadians(180));
+            endPos = new Pose2d(53, -32 * color, Math.toRadians(180));
         } else if (Objects.equals(position, "mid")) {
             yellowPlacePath = drive.trajectorySequenceBuilder(endPos)
-                    .lineTo(new Vector2d(50, -42 * color))
+                    .lineTo(new Vector2d(53, -39 * color))
                     .build();
-            endPos = new Pose2d(50, -42 * color, Math.toRadians(180));
+            endPos = new Pose2d(53, -41 * color, Math.toRadians(180));
         } else {
             yellowPlacePath = drive.trajectorySequenceBuilder(endPos)
-                    .lineTo(new Vector2d(50, -51 * color))
+                    .lineTo(new Vector2d(53, -49 * color))
                     .build();
-            endPos = new Pose2d(50, -51 * color, Math.toRadians(180));
+            endPos = new Pose2d(53, -49 * color, Math.toRadians(180));
         }
 
         return yellowPlacePath;

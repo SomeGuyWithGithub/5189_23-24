@@ -38,7 +38,7 @@ public class MainAutonomous extends OpMode
 
     SampleMecanumDrive drive;
 
-    TrajectorySequence purplePath, purpleToBackdropPrath, yellowPlacePath, parkPath;
+    TrajectorySequence purplePath, purpleToBackdropPath, yellowPlacePath, parkPath;
 
     Servo yellowArm;
 
@@ -75,9 +75,9 @@ public class MainAutonomous extends OpMode
 
         pathingTool = new MainAutoPath();
 
-        color = "red";
-        startDis = "close";
-        endDis = "edge";
+        color = "red"; // blue or red
+        startDis = "close"; // close or far
+        endDis = "close"; // close or mid
 
         pathingTool.initVarsAndCamera(hardwareMap, drive, telemetry, color, startDis, endDis);
     }
@@ -86,7 +86,7 @@ public class MainAutonomous extends OpMode
         runtime.reset();
         while (runtime.time() < 1.5) {}
         purplePath = pathingTool.makePurplePath();
-        purpleToBackdropPrath = pathingTool.makePurpleToBackdropPath();
+        purpleToBackdropPath = pathingTool.makePurpleToBackdropPath();
         yellowPlacePath = pathingTool.makeYellowPlacePath();
         parkPath = pathingTool.makeParkPath();
 
@@ -102,7 +102,7 @@ public class MainAutonomous extends OpMode
             case PLACE_PURPLE:
                 if (!drive.isBusy()) {
                     state = State.PLACE_YELLOW;
-                    drive.followTrajectorySequenceAsync(purpleToBackdropPrath);
+                    drive.followTrajectorySequenceAsync(purpleToBackdropPath);
                 }
                 break;
             case PLACE_YELLOW:
