@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Autonomous
-public class MainAutonomous extends OpMode
+public class BlueFarClose extends OpMode
 {
     public enum State{
         PLACE_PURPLE,
@@ -79,8 +79,8 @@ public class MainAutonomous extends OpMode
 
         pathingTool = new MainAutoPath();
 
-        color = "red"; // blue or red
-        startDis = "close"; // close or far
+        color = "blue"; // blue or red
+        startDis = "far"; // close or far
         endDis = "close"; // close or mid
 
         pathingTool.initVarsAndCamera(hardwareMap, drive, telemetry, color, startDis, endDis);

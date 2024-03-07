@@ -67,10 +67,10 @@ public class MainCameraPipeline implements VisionProcessor {
             mat2.release();
         }
 
-        double leftBox = Core.sumElems(mat.submat(MID_RECTANGLE)).val[0];
+        double midBox = Core.sumElems(mat.submat(MID_RECTANGLE)).val[0];
         double rightBox = Core.sumElems(mat.submat(RIGHT_RECTANGLE)).val[0];
 
-        double averagedMidBox = leftBox / MID_RECTANGLE.area() / 255;
+        double averagedMidBox = midBox / MID_RECTANGLE.area() / 255;
         double averagedRightBox = rightBox / RIGHT_RECTANGLE.area() / 255; //Makes value [0,1]
 
         if(averagedMidBox > 0.25){
