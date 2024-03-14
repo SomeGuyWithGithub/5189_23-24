@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.code.constants;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -15,12 +16,16 @@ public class Consts {
 
     public Servo popper, arm, joint, claw;
 
+    public RevBlinkinLedDriver lights;
+
     public Consts(HardwareMap _hardwareMap) {
         hardwareMap = _hardwareMap;
 
         setMotors();
 
         setServos();
+
+        setLights();
 
         setImu();
     }
@@ -53,6 +58,10 @@ public class Consts {
         arm.setDirection(Servo.Direction.REVERSE);
         joint.setDirection(Servo.Direction.FORWARD);
         claw.setDirection(Servo.Direction.FORWARD);
+    }
+
+    private void setLights() {
+        lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
     }
 
     private void setImu() {
