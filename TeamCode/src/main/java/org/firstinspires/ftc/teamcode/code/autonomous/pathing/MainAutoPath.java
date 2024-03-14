@@ -1,35 +1,36 @@
 package org.firstinspires.ftc.teamcode.code.autonomous.pathing;
 
-import android.util.Size;
-
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.code.autonomous.camera.MainCameraPipeline;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.teamcode.code.constants.AutoConsts;
+import org.firstinspires.ftc.teamcode.code.constants.Consts;
+import org.firstinspires.ftc.teamcode.code.autonomous.roadrunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.code.autonomous.roadrunner.trajectorysequence.TrajectorySequence;
 
 import java.util.Objects;
 
 public class MainAutoPath {
-    private Telemetry telemetry;
+    private MultipleTelemetry telemetry;
+
+    private AutoConsts autoConsts;
+
     private double centerLine, leftLine, rightLine, color;
     private String startDis, endDis, position;
 
     private Pose2d startPos, endPos;
-
-    private MainCameraPipeline cameraProcessor;
 
     private SampleMecanumDrive drive;
 
     private TrajectorySequence purplePath, purpleToBackdropPath, yellowPlacePath, gotoWhitePath,  parkPath;
 
     public void initVarsAndCamera(HardwareMap hardwareMap, SampleMecanumDrive drive, Telemetry telemetry, String color, String startDis, String endDis) {
+        autoConsts = new AutoConsts(hardwareMap);
+
         // generate lines that the purple placement will depend upon
         // changes whether the bot starts close or far side
         centerLine = 14;
@@ -45,7 +46,8 @@ public class MainAutoPath {
         this.drive = drive;
         this.startDis = startDis;
         this.endDis = endDis;
-        this.telemetry = telemetry;
+        this.telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
         if (Objects.equals(color, "red")) {
             this.color = 1.;
         } else if (Objects.equals(color, "blue")) {
@@ -56,23 +58,17 @@ public class MainAutoPath {
         startPos = new Pose2d(centerLine, -61 * this.color, Math.toRadians(-90 * this.color));
         drive.setPoseEstimate(startPos);
 
-        // sets up the the processor
-        cameraProcessor = new MainCameraPipeline();
         // sets the processor to detect red or blue, depending on what the color is
-        cameraProcessor.setColor(color);
+        autoConsts.setProcessor();
+        autoConsts.processor.setColor(color);
 
         // sets the camera with the previously build processor
-        VisionPortal portal = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "Goof"))
-                .setCameraResolution(new Size(640, 480))
-                .setCamera(BuiltinCameraDirection.BACK)
-                .addProcessor(cameraProcessor)
-                .enableLiveView(true)
-                .build();
+        autoConsts.setCamera();
     }
 
     private String getTeamElementPos() {
-        String position = cameraProcessor.getPropPosition();
+        String position = autoConsts.processor.getPropPosition();
+        autoConsts.stopCamera();
 
         telemetry.addData("Position: ", position);
         telemetry.update();
@@ -253,7 +249,7 @@ public class MainAutoPath {
     }
 
     public TrajectorySequence makeParkPath() {
-        if (Objects.equals(endDis, "close")) {
+        if (Objects.equals(endDis, "edge")) {
             parkPath = drive.trajectorySequenceBuilder(endPos)
                     .lineTo(new Vector2d(50, -60 * color))
                     .build();

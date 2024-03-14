@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.code.autonomous.code;
+package org.firstinspires.ftc.teamcode.code.baseClasses;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -9,38 +9,21 @@ import org.firstinspires.ftc.teamcode.code.autonomous.camera.MainCameraPipeline;
 import org.firstinspires.ftc.teamcode.code.autonomous.pathing.MainAutoPath;
 import org.firstinspires.ftc.teamcode.code.autonomous.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.code.autonomous.roadrunner.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.code.constants.AutoConsts;
+import org.firstinspires.ftc.teamcode.code.constants.Consts;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Autonomous
-public class RedFarClose extends OpMode
+public abstract class MainAutonomous extends OpMode
 {
-    public enum State{
-        PLACE_PURPLE,
-        PLACE_YELLOW,
-        SCORE,
-        PARK,
-        Idle
-    }
-    State state;
+    Consts consts;
+    AutoConsts.autoEnums autoEnums;
 
-    public enum YellowState{
-        DRIVE,
-        POSITION,
-        PLACE
-    }
-    YellowState yellowState;
-
-    public enum Score{
-        // TODO: do this later
-    }
-
-    String startDis, endDis, color;
+    public String startDis, endDis, color;
 
     SampleMecanumDrive drive;
 
     TrajectorySequence purplePath, purpleToBackdropPath, yellowPlacePath, gotoWhitePath, parkPath;
-
-    Servo yellowArm;
 
     private ElapsedTime runtime;
 
@@ -49,42 +32,29 @@ public class RedFarClose extends OpMode
 
     double centerLine, leftLine, rightLine;
 
-    Servo arm, joint, claw;
-
     MainAutoPath pathingTool;
 
+    public void setVariables() {
+        color = "red"; // blue or red
+        startDis = "close"; // close or far
+        endDis = "edge"; // edge or mid
+    }
+
     public void init() {
-        arm = hardwareMap.get(Servo.class, "idk1");
-        joint = hardwareMap.get(Servo.class, "idk2");
-        claw = hardwareMap.get(Servo.class, "idk3");
-        yellowArm = hardwareMap.get(Servo.class, "pickol");
+        setVariables();
 
-        arm.setDirection(Servo.Direction.REVERSE);
-        joint.setDirection(Servo.Direction.FORWARD);
-        claw.setDirection(Servo.Direction.FORWARD);
-        yellowArm.setDirection(Servo.Direction.FORWARD);
-
-        arm.setPosition(0);
-        joint.setPosition(0.1);
-        claw.setPosition(0);
-
-        yellowArm.setPosition(0);
+        consts = new Consts(hardwareMap);
+        autoEnums = new AutoConsts.autoEnums();
 
         runtime = new ElapsedTime();
-
-        state = State.PLACE_PURPLE;
-        yellowState = YellowState.DRIVE;
 
         drive = new SampleMecanumDrive(hardwareMap);
 
         pathingTool = new MainAutoPath();
 
-        color = "red"; // blue or red
-        startDis = "far"; // close or far
-        endDis = "close"; // close or mid
-
         pathingTool.initVarsAndCamera(hardwareMap, drive, telemetry, color, startDis, endDis);
     }
+
 
     public void start() {
         runtime.reset();
@@ -101,45 +71,45 @@ public class RedFarClose extends OpMode
     @Override
     public void loop()
     {
-        switch(state)
+        switch(autoEnums.state)
         {
             case PLACE_PURPLE:
                 if (!drive.isBusy()) {
-                    state = State.PLACE_YELLOW;
+                    autoEnums.state = AutoConsts.State.PLACE_YELLOW;
                     drive.followTrajectorySequenceAsync(purpleToBackdropPath);
                 }
                 break;
             case PLACE_YELLOW:
-                switch(yellowState)
+                switch(autoEnums.yellowState)
                 {
                     case DRIVE:
                         if (!drive.isBusy()) {
-                            yellowState = YellowState.POSITION;
+                            autoEnums.yellowState = AutoConsts.YellowState.POSITION;
                             drive.followTrajectorySequenceAsync(yellowPlacePath);
                         }
                         break;
                     case POSITION:
                         if (!drive.isBusy()) {
                             runtime.reset();
-                            yellowState = YellowState.PLACE;
+                            autoEnums.yellowState = AutoConsts.YellowState.PLACE;
                         }
                         break;
                     case PLACE:
-                        yellowArm.setPosition(0.6);
+                        consts.popper.setPosition(0.6);
                         if (runtime.time() > 1) {
-                            yellowArm.setPosition(0);
-                            state = State.SCORE;
+                            consts.popper.setPosition(0);
+                            autoEnums.state = AutoConsts.State.SCORE;
                         }
                         break;
                 }
                 break;
             case SCORE:
-                state = State.PARK;
+                autoEnums.state = AutoConsts.State.PARK;
                 drive.followTrajectorySequenceAsync(parkPath);
                 break;
             case PARK:
                 if (!drive.isBusy()) {
-                    state = State.Idle;
+                    autoEnums.state = AutoConsts.State.Idle;
                 }
                 break;
             case Idle:
