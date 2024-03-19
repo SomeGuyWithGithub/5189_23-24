@@ -13,9 +13,7 @@ public class Consts {
     public IMU imu;
 
     public DcMotor frontLeft, frontRight, backLeft, backRight, slideL, slideR;
-
     public Servo popper, arm, joint, claw;
-
     public RevBlinkinLedDriver lights;
 
     public Consts(HardwareMap _hardwareMap) {

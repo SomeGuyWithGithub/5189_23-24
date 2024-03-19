@@ -66,7 +66,6 @@ public class NoIdeaWhatToNameThis extends OpMode {
             if (gamepad1.x){
                 slide.hang();
             }
-
         }
     }
 }

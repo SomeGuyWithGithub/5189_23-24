@@ -5,46 +5,39 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.teamcode.code.constants.Consts;
+
 @TeleOp
 public class MotorTest extends OpMode {
-    DcMotor frontLeftMotor;
-    DcMotor backLeftMotor;
-    DcMotor frontRightMotor;
-    DcMotor backRightMotor;
+    Consts consts;
+
     @Override
     public void init() {
-        frontLeftMotor = hardwareMap.dcMotor.get("frontLeft");
-        backLeftMotor = hardwareMap.dcMotor.get("backLeft");
-        frontRightMotor = hardwareMap.dcMotor.get("frontRight");
-        backRightMotor = hardwareMap.dcMotor.get("backRight");
-//
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        consts = new Consts(hardwareMap);
     }
 
     @Override
     public void loop() {
         if (gamepad1.a)
         {
-            backLeftMotor.setPower(1);
+            consts.backLeft.setPower(1);
         }
         if (gamepad1.b)
         {
-            backRightMotor.setPower(1);
+            consts.backRight.setPower(1);
         }
         if (gamepad1.x)
         {
-            frontLeftMotor.setPower(1);
+            consts.frontLeft.setPower(1);
         }
         if (gamepad1.y)
         {
-            frontRightMotor.setPower(1);
+            consts.frontRight.setPower(1);
         }
-        frontLeftMotor.setPower(0);
-        frontRightMotor.setPower(0);
-        backLeftMotor.setPower(0);
-        backRightMotor.setPower(0);
+
+        consts.frontLeft.setPower(0);
+        consts.frontRight.setPower(0);
+        consts.backLeft.setPower(0);
+        consts.backRight.setPower(0);
     }
 }
