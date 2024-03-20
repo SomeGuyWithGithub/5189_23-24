@@ -14,7 +14,9 @@ public class basePIDF {
         return 0;
     }
 
-    public double getPower(int target) {
+    public void setMotors(int target) {}
+
+    protected double getPower(int target) {
         double pid = controller.calculate(getCurrentPos(), target);
         double ff = Math.cos(Math.toRadians(target / ticksPerDegree)) * f;
 

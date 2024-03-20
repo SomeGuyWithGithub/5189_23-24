@@ -37,7 +37,7 @@ public class NoIdeaWhatToNameThis extends OpMode {
 
     @Override
     public void loop() {
-        slidePIDF.getPower(slideTarget);
+        slidePIDF.setMotors(slideTarget);
 
         // EXAMPLE "hang"
         if (gamepad1.y) {

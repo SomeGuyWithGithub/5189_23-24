@@ -26,10 +26,7 @@ public class pidf_test extends OpMode {
 
     @Override
     public void loop() {
-        double power = slidePIDF.getPower(target);
-
-        consts.slideR.setPower(power);
-        consts.slideL.setPower(power);
+        slidePIDF.setMotors(target);
 
         telemetry.addData("position ", slidePIDF.getCurrentPos());
         telemetry.addData("target ", target);

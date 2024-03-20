@@ -7,8 +7,10 @@ import org.firstinspires.ftc.teamcode.code.baseClasses.basePIDF;
 
 public class PIDFConsts {
     public static final class slidePIDF extends basePIDF {
+        slidePIDF slidePIDF;
         public slidePIDF(HardwareMap hardwareMap) {
             consts = new Consts(hardwareMap);
+            slidePIDF = new slidePIDF(hardwareMap);
 
             p = 0;
             i = 0;
@@ -22,6 +24,14 @@ public class PIDFConsts {
         @Override
         public double getCurrentPos() {
             return (consts.slideL.getCurrentPosition() + consts.slideR.getCurrentPosition()) / 2.;
+        }
+
+        @Override
+        public void setMotors(int target) {
+            double power = slidePIDF.getPower(target);
+
+            consts.slideR.setPower(power);
+            consts.slideL.setPower(power);
         }
     }
 }
