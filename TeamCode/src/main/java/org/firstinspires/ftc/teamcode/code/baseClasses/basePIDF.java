@@ -15,7 +15,6 @@ public class basePIDF {
     }
 
     public double getPower(int target) {
-        controller.setPID(p, i, d);
         double pid = controller.calculate(getCurrentPos(), target);
         double ff = Math.cos(Math.toRadians(target / ticksPerDegree)) * f;
 

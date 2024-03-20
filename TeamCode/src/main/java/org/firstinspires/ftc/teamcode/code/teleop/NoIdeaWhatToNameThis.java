@@ -4,32 +4,46 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.code.constants.Consts;
+import org.firstinspires.ftc.teamcode.code.constants.PIDFConsts;
 import org.firstinspires.ftc.teamcode.code.constants.TeleConsts;
 
 @TeleOp
 public class NoIdeaWhatToNameThis extends OpMode {
 
     Consts consts;
+    PIDFConsts.slidePIDF slidePIDF;
     TeleConsts teleConsts;
     TeleConsts.Arm arm;
     TeleConsts.Claw claw;
     TeleConsts.Slide slide;
+
+    private int slideTarget;
 
     double motorPower;
 
     @Override
     public void init() {
         consts = new Consts(hardwareMap);
+        slidePIDF = new PIDFConsts.slidePIDF(hardwareMap);
         teleConsts = new TeleConsts(hardwareMap);
         arm = new TeleConsts.Arm();
         claw = new TeleConsts.Claw();
         slide = new TeleConsts.Slide();
+
+        int slideTarget = 0;
 
         arm.setInit();
     }
 
     @Override
     public void loop() {
+        slidePIDF.getPower(slideTarget);
+
+        // EXAMPLE "hang"
+        if (gamepad1.y) {
+            slideTarget = 1000; // pretend like this is correct position
+        }
+
         //SECOND PLAYER
         if(gamepad2.dpad_down){
             motorPower = arm.setGrab();
