@@ -15,6 +15,8 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
+import java.util.Objects;
+
 @Config
 public class MainCameraPipeline implements VisionProcessor {
     public static double minimumValue = 100;
@@ -98,13 +100,25 @@ public class MainCameraPipeline implements VisionProcessor {
 
     @Override
     public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
-        Paint rectPaint = new Paint();
-        rectPaint.setColor(Color.RED);
-        rectPaint.setStyle(Paint.Style.STROKE);
-        rectPaint.setStrokeWidth(scaleCanvasDensity * 4);
+        Paint midRect  = new Paint();
+        Paint rightRect = new Paint();
 
-        canvas.drawRect(makeGraphicsRect(MID_RECTANGLE, scaleBmpPxToCanvasPx), rectPaint);
-        canvas.drawRect(makeGraphicsRect(RIGHT_RECTANGLE, scaleBmpPxToCanvasPx), rectPaint);
+        midRect.setColor(Color.RED);
+        midRect.setStyle(Paint.Style.STROKE);
+        midRect.setStrokeWidth(scaleCanvasDensity * 4);
+
+        rightRect.setColor(Color.RED);
+        rightRect.setStyle(Paint.Style.STROKE);
+        rightRect.setStrokeWidth(scaleCanvasDensity * 4);
+
+        if (Objects.equals(outStr, "mid")) {
+            midRect.setStyle(Paint.Style.FILL);
+        } else if (Objects.equals(outStr, "right")) {
+            rightRect.setStyle(Paint.Style.FILL);
+        }
+
+        canvas.drawRect(makeGraphicsRect(MID_RECTANGLE, scaleBmpPxToCanvasPx), midRect);
+        canvas.drawRect(makeGraphicsRect(RIGHT_RECTANGLE, scaleBmpPxToCanvasPx), rightRect);
     }
 
     public void setColor(String color) {
