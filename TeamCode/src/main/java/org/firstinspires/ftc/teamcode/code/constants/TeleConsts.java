@@ -15,12 +15,6 @@ public class TeleConsts {
     }
 
     public static class Arm {
-        public final void setInit() {
-            consts.arm.setPosition(0);
-            consts.joint.setPosition(0.1);
-            consts.claw.setPosition(0);
-        }
-
         public final double setGrab() {
             consts.arm.setPosition(0);
             consts.joint.setPosition(0.61);

@@ -30,9 +30,9 @@ public class NoIdeaWhatToNameThis extends OpMode {
         claw = new TeleConsts.Claw();
         slide = new TeleConsts.Slide();
 
-        int slideTarget = 0;
+        consts.setInit();
 
-        arm.setInit();
+        int slideTarget = 0;
     }
 
     @Override

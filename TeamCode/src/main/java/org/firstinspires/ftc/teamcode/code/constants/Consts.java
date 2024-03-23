@@ -71,4 +71,10 @@ public class Consts {
         imu.resetYaw();
     }
 
+    public void setInit() {
+        arm.setPosition(0);
+        joint.setPosition(0.1);
+        claw.setPosition(0);
+        popper.setPosition(0);
+    }
 }

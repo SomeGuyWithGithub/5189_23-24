@@ -46,6 +46,8 @@ public abstract class MainAutonomous extends OpMode
         consts = new Consts(hardwareMap);
         autoEnums = new AutoConsts.autoEnums();
 
+        consts.setInit();
+
         runtime = new ElapsedTime();
 
         drive = new SampleMecanumDrive(hardwareMap);
