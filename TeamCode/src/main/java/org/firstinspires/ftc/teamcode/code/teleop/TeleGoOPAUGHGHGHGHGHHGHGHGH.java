@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.code.constants.PIDFConsts;
 import org.firstinspires.ftc.teamcode.code.constants.TeleConsts;
 
 @TeleOp
-public class NoIdeaWhatToNameThis extends OpMode {
+public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
 
     Consts consts;
     PIDFConsts.slidePIDF slidePIDF;
