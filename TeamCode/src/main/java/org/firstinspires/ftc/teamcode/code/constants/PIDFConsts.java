@@ -28,6 +28,8 @@ public class PIDFConsts {
 
         @Override
         public void setMotors(int target) {
+            controller.setPID(p, i, d);
+
             double power = slidePIDF.getPower(target);
 
             consts.slideR.setPower(power);
