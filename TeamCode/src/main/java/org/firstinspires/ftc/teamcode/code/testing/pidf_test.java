@@ -28,6 +28,7 @@ public class pidf_test extends OpMode {
     @Override
     public void init() {
         consts = new Consts(hardwareMap);
+        controller = new PIDController(p, i, d);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
     }
 
