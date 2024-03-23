@@ -44,9 +44,10 @@ public class pidf_test extends OpMode {
         consts.slideR.setPower(power);
         consts.slideL.setPower(power);
 
-        telemetry.addData("target: ", target);
+        telemetry.addData("Target: ", target);
         telemetry.addData("Current Pos: ", getCurrentPos());
         telemetry.addData("Error: ", Math.abs(target - getCurrentPos()));
+        telemetry.addData("Power: ", power);
         telemetry.update();
     }
 }
