@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.code.constants.Consts;
 
 public class basePIDF {
     protected static Consts consts;
-    protected static double p, i, d, f;
+    public static double p, i, d, f;
     protected static double ticksPerDegree;
     protected static PIDController controller;
 

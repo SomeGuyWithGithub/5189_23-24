@@ -36,11 +36,7 @@ public abstract class MainAutonomous extends OpMode
 
     MainAutoPath pathingTool;
 
-    public void setVariables() {
-        color = "red"; // blue or red
-        startDis = "close"; // close or far
-        endDis = "edge"; // edge or mid
-    }
+    public abstract void setVariables();
 
     public void init() {
         setVariables();

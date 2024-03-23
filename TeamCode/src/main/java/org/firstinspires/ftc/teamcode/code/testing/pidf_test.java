@@ -6,6 +6,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.code.baseClasses.basePIDF;
 import org.firstinspires.ftc.teamcode.code.constants.Consts;
 import org.firstinspires.ftc.teamcode.code.constants.PIDFConsts;
 
@@ -14,6 +15,8 @@ import org.firstinspires.ftc.teamcode.code.constants.PIDFConsts;
 public class pidf_test extends OpMode {
     Consts consts;
     PIDFConsts.slidePIDF slidePIDF;
+
+    public static double p = 0, i = 0, d = 0, f = 0;
 
     public static int target = 0;
 
@@ -26,6 +29,11 @@ public class pidf_test extends OpMode {
 
     @Override
     public void loop() {
+        basePIDF.p = p;
+        basePIDF.i = i;
+        basePIDF.d = d;
+        basePIDF.f = f;
+
         slidePIDF.setMotors(target);
 
         telemetry.addData("position ", slidePIDF.getCurrentPos());
