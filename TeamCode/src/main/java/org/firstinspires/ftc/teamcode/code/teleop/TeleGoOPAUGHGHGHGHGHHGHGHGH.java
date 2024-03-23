@@ -18,6 +18,7 @@ public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
     TeleConsts.Slide slide;
 
     private int slideTarget;
+    private int slideTimer;
 
     double motorPower;
 
@@ -33,12 +34,16 @@ public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
         consts.setInit();
 
         slideTarget = 0;
+        slideTimer = 0;
     }
 
     @Override
     public void loop() {
-        slidePIDF.setMotors(slideTarget);
-
+        slideTimer ++;
+        if (slideTimer == 5) {
+            slideTimer = 0;
+            slidePIDF.setMotors(slideTarget);
+        }
         // EXAMPLE "hang"
         if (gamepad1.y) {
             slideTarget = 1000; // pretend like this is correct position
