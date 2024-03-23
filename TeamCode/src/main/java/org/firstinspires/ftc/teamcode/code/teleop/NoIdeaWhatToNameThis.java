@@ -32,7 +32,7 @@ public class NoIdeaWhatToNameThis extends OpMode {
 
         consts.setInit();
 
-        int slideTarget = 0;
+        slideTarget = 0;
     }
 
     @Override

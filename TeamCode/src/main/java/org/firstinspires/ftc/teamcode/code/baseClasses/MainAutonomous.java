@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.code.baseClasses;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.code.constants.AutoConsts;
 import org.firstinspires.ftc.teamcode.code.constants.Consts;
 import org.firstinspires.ftc.vision.VisionPortal;
 
+@Disabled
 @Autonomous
 public abstract class MainAutonomous extends OpMode
 {
