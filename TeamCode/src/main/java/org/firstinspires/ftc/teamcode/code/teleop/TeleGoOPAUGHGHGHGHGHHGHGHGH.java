@@ -39,11 +39,11 @@ public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
 
     @Override
     public void loop() {
-        slideTimer ++;
-        if (slideTimer == 5) {
-            slideTimer = 0;
-            slidePIDF.setMotors(slideTarget);
-        }
+//        slideTimer ++;
+//        if (slideTimer == 5) {
+//            slideTimer = 0;
+//            slidePIDF.setMotors(slideTarget);
+//        }
         // EXAMPLE "hang"
         if (gamepad1.y) {
             slideTarget = 1000; // pretend like this is correct position
