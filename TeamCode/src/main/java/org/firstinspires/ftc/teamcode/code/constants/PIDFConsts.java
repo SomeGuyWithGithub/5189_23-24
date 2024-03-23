@@ -12,10 +12,10 @@ public class PIDFConsts {
             consts = new Consts(hardwareMap);
             slidePIDF = new slidePIDF(hardwareMap);
 
-            p = 0;
+            p = 0.0089;
             i = 0;
-            d = 0;
-            f = 0;
+            d = 0.0002;
+            f = 0.024;
             ticksPerDegree = 537.7 / 360;
 
             controller = new PIDController(p, i, d);

@@ -16,7 +16,7 @@ public class pidf_test extends OpMode {
 
     PIDController controller;
 
-    public static double p = 0, i = 0, d = 0, f = 0;
+    public static double p = 0.0089, i = 0, d = 0.0002, f = 0.024;
     public final double ticksPerDegree = 537.7 / 360;
 
     public static int target = 0;
@@ -46,6 +46,7 @@ public class pidf_test extends OpMode {
 
         telemetry.addData("target: ", target);
         telemetry.addData("Current Pos: ", getCurrentPos());
+        telemetry.addData("Error: ", Math.abs(target - getCurrentPos()));
         telemetry.update();
     }
 }
