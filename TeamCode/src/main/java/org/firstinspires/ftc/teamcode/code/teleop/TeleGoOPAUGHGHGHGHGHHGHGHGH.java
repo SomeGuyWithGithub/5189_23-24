@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.code.teleop;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -9,47 +11,73 @@ import org.firstinspires.ftc.teamcode.code.constants.TeleConsts;
 
 @TeleOp
 public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
-
     Consts consts;
-    PIDFConsts.slidePIDF slidePIDF;
+    PIDFConsts.SlidePIDF slidePIDF;
     TeleConsts teleConsts;
     TeleConsts.Arm arm;
-    TeleConsts.Claw claw;
     TeleConsts.Slide slide;
+    TeleConsts.Claw claw;
+    TeleConsts.Popper popper;
 
-    private int slideTarget;
-    private int slideTimer;
+    MultipleTelemetry telem;
 
-    double motorPower;
+    private double motorPower = 1.;
+
+    private int slideTarget = 0;
 
     @Override
     public void init() {
+        telem = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         consts = new Consts(hardwareMap);
-        slidePIDF = new PIDFConsts.slidePIDF(hardwareMap);
+        slidePIDF = new PIDFConsts.SlidePIDF(hardwareMap);
         teleConsts = new TeleConsts(hardwareMap);
         arm = new TeleConsts.Arm();
-        claw = new TeleConsts.Claw();
         slide = new TeleConsts.Slide();
+        claw = new TeleConsts.Claw();
+        popper = new TeleConsts.Popper();
 
         consts.setInit();
-
-        slideTarget = 0;
-        slideTimer = 0;
+        telem.addLine("Initialized.");
+        telem.update();
     }
 
     @Override
     public void loop() {
-//        slideTimer ++;
-//        if (slideTimer == 5) {
-//            slideTimer = 0;
-//            slidePIDF.setMotors(slideTarget);
-//        }
-        // EXAMPLE "hang"
-        if (gamepad1.y) {
-            slideTarget = 1000; // pretend like this is correct position
+        slidePIDF.setMotors(slideTarget);
+        if (gamepad1.dpad_up) {
+            slideTarget = 1000;
+        }
+        if (gamepad1.dpad_down) {
+            slideTarget = 0;
         }
 
-        //SECOND PLAYER
+        // Player 1
+        if (gamepad1.y) {
+            slide.goUp();
+        }
+        if (gamepad1.a) {
+            slide.goDown();
+        }
+        if (gamepad1.b) {
+            slide.stay();
+        }
+        if (gamepad1.x){
+            slide.hang();
+        }
+        if (gamepad1.dpad_left) {
+            popper.goUp();
+        }
+        if (gamepad1.dpad_right) {
+            popper.goDown();
+        }
+
+        if (gamepad1.options) {
+            consts.imu.resetYaw();
+        }
+        teleConsts.fieldCentricDrive(gamepad1, motorPower, telem);
+
+
+        // Player 2
         if(gamepad2.dpad_down){
             motorPower = arm.setGrab();
         }
@@ -61,30 +89,12 @@ public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
         }
         if(gamepad2.right_bumper){
             claw.setGrab();
+
         }
         if(gamepad2.left_bumper){
             claw.setRelease();
         }
 
-
-        //FIRST PLAYER
-        if (gamepad1.options) {
-            consts.imu.resetYaw();
-        }
-
-        teleConsts.fieldCentricDrive(gamepad1, motorPower);
-
-        if (gamepad1.y) {
-            slide.goUp();
-        }
-        if (gamepad1.a) {
-            slide.goDown();
-        }
-        if (gamepad1.b) {
-            slide.stay();
-            if (gamepad1.x){
-                slide.hang();
-            }
-        }
+        telem.update();
     }
 }

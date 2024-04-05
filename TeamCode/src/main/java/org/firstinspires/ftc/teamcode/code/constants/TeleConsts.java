@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.code.constants;
 
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -36,7 +37,7 @@ public class TeleConsts {
 
     public static class Claw {
         public final void setGrab() {
-            consts.claw.setPosition(0.4);
+            consts.claw.setPosition(0.6);
         }
 
         public final void setRelease() {
@@ -61,13 +62,24 @@ public class TeleConsts {
         }
 
         public final void hang() {
-            consts.slideL.setPower(0.2);
-            consts.slideR.setPower(0.2);
+            consts.slideL.setPower(0.3);
+            consts.slideR.setPower(0.3);
+        }
+    }
+
+    public static class Popper {
+        public final void goUp() {
+            consts.popper.setPosition(0.6);
+        }
+
+        public final void goDown() {
+            consts.popper.setPosition(0);
         }
     }
 
     // really doesnt belong here, but fuck it we ball
-    public final void fieldCentricDrive(Gamepad gamepad, double motorPower) {
+    public final void fieldCentricDrive(Gamepad gamepad, double motorPower, MultipleTelemetry telem) {
+        telem.addLine("Field Centric");
         double y = -gamepad.left_stick_y;
         double x = gamepad.left_stick_x;
         double rx = gamepad.right_stick_x;

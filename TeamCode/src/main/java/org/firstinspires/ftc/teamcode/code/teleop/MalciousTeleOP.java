@@ -113,6 +113,7 @@ public class MalciousTeleOP extends LinearOpMode {
         arm.setPosition(0);
         joint.setPosition(0.1);
         claw.setPosition(0);
+        popper.setPosition(0);
 //        arm.turnToAngle(125);
 //        joint.turnToAngle(0);
 
@@ -188,7 +189,7 @@ public class MalciousTeleOP extends LinearOpMode {
                 motorPower = 0.55;
             }
             if(gamepad2.right_bumper){
-                claw.setPosition(0.4);
+                claw.setPosition(0.6);
 
             }
             if(gamepad2.left_bumper){
@@ -231,11 +232,16 @@ public class MalciousTeleOP extends LinearOpMode {
             if (gamepad1.b) {
                 slideL.setPower(0);
                 slideR.setPower(0);
-                if (gamepad1.x){
-                    slideL.setPower(0.2);
-                    slideR.setPower(0.2);
-                }
-
+            }
+            if (gamepad1.x){
+                slideL.setPower(0.3);
+                slideR.setPower(0.3);
+            }
+            if (gamepad1.dpad_left) {
+                popper.setPosition(0);
+            }
+            if (gamepad1.dpad_right) {
+                popper.setPosition(0.6);
             }
         }
     }

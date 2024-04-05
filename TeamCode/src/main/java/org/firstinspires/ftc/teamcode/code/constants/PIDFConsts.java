@@ -6,11 +6,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.code.baseClasses.basePIDF;
 
 public class PIDFConsts {
-    public static final class slidePIDF extends basePIDF {
-        slidePIDF slidePIDF;
-        public slidePIDF(HardwareMap hardwareMap) {
+    public static final class SlidePIDF extends basePIDF {
+        HardwareMap hardwareMap;
+        public SlidePIDF(HardwareMap _hardwareMap) {
+            hardwareMap = _hardwareMap;
             consts = new Consts(hardwareMap);
-            slidePIDF = new slidePIDF(hardwareMap);
 
             p = 0.0089;
             i = 0;
@@ -28,6 +28,7 @@ public class PIDFConsts {
 
         @Override
         public void setMotors(int target) {
+            SlidePIDF slidePIDF = new SlidePIDF(hardwareMap);
             controller.setPID(p, i, d);
 
             double power = slidePIDF.getPower(target);

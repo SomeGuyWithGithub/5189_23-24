@@ -12,8 +12,8 @@ import org.firstinspires.ftc.teamcode.code.constants.Consts;
 @TeleOp
 public class ServoPositionTest extends OpMode {
     Consts consts;
-    public static boolean yellowArmInverted = false;
-    public static double yellowArmPos = 0.0;
+    public static boolean clawInverted = false;
+    public static double clawPos = 0.0;
 
 
     @Override
@@ -23,8 +23,8 @@ public class ServoPositionTest extends OpMode {
 
     @Override
     public void loop() {
-        if (yellowArmInverted) {consts.popper.setDirection(Servo.Direction.REVERSE);}
-        else                   {consts.popper.setDirection(Servo.Direction.FORWARD);}
-        consts.popper.setPosition(yellowArmPos);
+        if (clawInverted) {consts.claw.setDirection(Servo.Direction.REVERSE);}
+        else                   {consts.claw.setDirection(Servo.Direction.FORWARD);}
+        consts.claw.setPosition(clawPos);
     }
 }
