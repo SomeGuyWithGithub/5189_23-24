@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.code.teleop;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -22,6 +23,9 @@ public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
     MultipleTelemetry telem;
 
     private double motorPower = 1.;
+    double p = 0.0089, i = 0, d = 0.0002, f = 0.024, ticksPerDegree = 537.7 / 360;
+
+    PIDController controller = new PIDController(p, i, d);
 
     private int slideTarget = 0;
 
@@ -43,13 +47,13 @@ public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
 
     @Override
     public void loop() {
-        slidePIDF.setMotors(slideTarget);
-        if (gamepad1.dpad_up) {
-            slideTarget = 1000;
-        }
-        if (gamepad1.dpad_down) {
-            slideTarget = 0;
-        }
+        double pid = controller.calculate(getCurrentPos(), slideTarget);
+        double ff = Math.cos(Math.toRadians(slideTarget / ticksPerDegree)) * f;
+
+        double power =  pid + ff;
+
+        consts.slideR.setPower(power);
+        consts.slideL.setPower(power);
 
         // Player 1
         if (gamepad1.y) {
@@ -96,5 +100,9 @@ public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
         }
 
         telem.update();
+    }
+
+    public double getCurrentPos() {
+        return (consts.slideL.getCurrentPosition() + consts.slideR.getCurrentPosition()) / 2.;
     }
 }

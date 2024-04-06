@@ -21,10 +21,12 @@ public class PIDFConsts {
             controller = new PIDController(p, i, d);
         }
 
+
         @Override
         public double getCurrentPos() {
             return (consts.slideL.getCurrentPosition() + consts.slideR.getCurrentPosition()) / 2.;
         }
+
 
         @Override
         public void setMotors(int target) {
