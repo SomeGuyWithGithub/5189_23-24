@@ -63,7 +63,7 @@ public class MalciousTeleOP extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         //CONFIGS
 
-        lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
+        lights = hardwareMap.get(RevBlinkinLedDriver.class, "light");
         DcMotor frontLeftMotor = hardwareMap.dcMotor.get("frontLeft");
         DcMotor backLeftMotor = hardwareMap.dcMotor.get("backLeft");
         DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRight");
@@ -114,6 +114,7 @@ public class MalciousTeleOP extends LinearOpMode {
         joint.setPosition(0.1);
         claw.setPosition(0);
         popper.setPosition(0);
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.HOT_PINK);
 //        arm.turnToAngle(125);
 //        joint.turnToAngle(0);
 
@@ -177,19 +178,23 @@ public class MalciousTeleOP extends LinearOpMode {
                 arm.setPosition(0);
                 joint.setPosition(0.61);
                 motorPower = 1;
+                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN);
             }
             if(gamepad2.dpad_up){
                 arm.setPosition(0);
                 joint.setPosition(0.1);
                 motorPower = 1.;
+                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
             }
             if(gamepad2.y){
                 arm.setPosition(1);
                 joint.setPosition(0.31);
                 motorPower = 0.55;
+                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_OCEAN_PALETTE);
             }
             if(gamepad2.right_bumper){
                 claw.setPosition(0.6);
+                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
 
             }
             if(gamepad2.left_bumper){
