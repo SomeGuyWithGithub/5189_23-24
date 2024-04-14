@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.lang.Math;
 
@@ -48,6 +49,7 @@ public class MalciousTeleOP extends LinearOpMode {
         setArmWristPos(alpha - 180, armWrist1, armWrist2);
     }
 
+
     RevBlinkinLedDriver lights;
     public enum State {
         HIGH_2ND_LINE,
@@ -57,7 +59,22 @@ public class MalciousTeleOP extends LinearOpMode {
         GRAB
     }
 
+    private enum LightStates {
+        ENDGAME,
+        SCORE,
+        GRAB,
+        OPEN,
+        CLAWDOWN,
+        CLAWUP,
+        INITIALIZE
+    }
+    LightStates lightStates;
+
     public double motorPower = 1.;
+    ElapsedTime runTime;
+
+    boolean clawOpen = true;
+    double clawChangeTime = 0.;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -100,12 +117,14 @@ public class MalciousTeleOP extends LinearOpMode {
         //States
         State state = State.RESET;
 
+
+
         IMU imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
                 RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD));
         imu.initialize(parameters);
-        imu.resetYaw();
+
 
 //        //Servo/Motor intits here
 //
@@ -117,15 +136,15 @@ public class MalciousTeleOP extends LinearOpMode {
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.HOT_PINK);
 //        arm.turnToAngle(125);
 //        joint.turnToAngle(0);
-
+        runTime = new ElapsedTime();
 
         //TELEOP MAIN
         waitForStart();
 
         if (isStopRequested()) return;
-
+        runTime.reset();
         while (opModeIsActive()) {
-
+            telemetry.addLine(String.format("%s", runTime.seconds()));
 
 //            switch (state) {
 //                case RESET:
@@ -173,32 +192,45 @@ public class MalciousTeleOP extends LinearOpMode {
 ////                joint.setDirection(Servo.Direction.FORWARD);
 ////            }
 ////            joint.setPosition(jointPosition);
-            //SECOND PLAYER
+           if (runTime.seconds() >= 90){
+               lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_RAINBOW_PALETTE);
+           }
+        //SECOND PLAYER
             if(gamepad2.dpad_down){
                 arm.setPosition(0);
                 joint.setPosition(0.61);
                 motorPower = 1;
-                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN);
+                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED);
             }
             if(gamepad2.dpad_up){
                 arm.setPosition(0);
                 joint.setPosition(0.1);
                 motorPower = 1.;
-                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
+                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BREATH_BLUE);
             }
             if(gamepad2.y){
                 arm.setPosition(1);
                 joint.setPosition(0.31);
                 motorPower = 0.55;
-                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_OCEAN_PALETTE);
+                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_FOREST_PALETTE);
             }
-            if(gamepad2.right_bumper){
-                claw.setPosition(0.6);
-                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
 
+            if (gamepad2.right_bumper && runTime.seconds() - clawChangeTime >= 0.15) {
+                clawOpen = !clawOpen;
+                if (clawOpen) {
+                    claw.setPosition(0);
+                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
+                } else {
+                    claw.setPosition(0.6);
+                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
+                }
+                clawChangeTime = runTime.seconds();
             }
-            if(gamepad2.left_bumper){
-                claw.setPosition(0);
+
+            if (gamepad2.b){
+                arm.setPosition(1);
+                joint.setPosition(0.35);
+                motorPower = 0.55;
             }
             //FIRST PLAYER
 
@@ -248,6 +280,8 @@ public class MalciousTeleOP extends LinearOpMode {
             if (gamepad1.dpad_right) {
                 popper.setPosition(0.6);
             }
+
+            telemetry.update();
         }
     }
 }

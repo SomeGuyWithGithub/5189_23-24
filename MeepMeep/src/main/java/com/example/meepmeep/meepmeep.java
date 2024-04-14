@@ -13,7 +13,7 @@ public class meepmeep {
 
         double centerLine, leftLine, rightLine;
 
-        double color = 1.; // 1. for red, -1. for blue
+        double color = -1.; // 1. for red, -1. for blue
         centerLine = 14;
         leftLine = 8.;
         rightLine = 15.5;
@@ -22,8 +22,12 @@ public class meepmeep {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12.78)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(50, -41 * color, Math.toRadians(180)))
-                                .lineTo(new Vector2d(50, -7 * color))
+                        drive.trajectorySequenceBuilder(new Pose2d(centerLine, -61 * color, Math.toRadians(-90* color)))
+                                .lineTo(new Vector2d(rightLine + 10, 50))
+                                .lineToLinearHeading(new Pose2d(leftLine+1, 30, Math.toRadians(0)))
+                                .lineTo(new Vector2d(rightLine, 30))
+                                .lineTo(new Vector2d(centerLine, 42))
+                                .turn(Math.toRadians(180))
                                 .build()
                 );
 

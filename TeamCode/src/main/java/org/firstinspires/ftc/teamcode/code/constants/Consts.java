@@ -59,7 +59,7 @@ public class Consts {
     }
 
     private void setLights() {
-        lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
+        lights = hardwareMap.get(RevBlinkinLedDriver.class, "light");
     }
 
     private void setImu() {
