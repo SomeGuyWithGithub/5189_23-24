@@ -87,7 +87,7 @@ public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
             consts.imu.resetYaw();
         }
 
-        if (gamepad1.right_bumper) {
+        if (gamepad1.left_bumper) {
             movement.changeMode(runtime);
         }
 
