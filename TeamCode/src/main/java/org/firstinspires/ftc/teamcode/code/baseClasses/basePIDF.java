@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.code.baseClasses;
 
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.code.constants.Consts;
+import org.firstinspires.ftc.teamcode.code.constants.PIDConsts.SlidePID;
 
 public abstract class basePIDF {
     protected Consts consts;

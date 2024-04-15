@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.code.constants.Consts;
-import org.firstinspires.ftc.teamcode.code.constants.PIDConsts.SlidePID;
 import org.firstinspires.ftc.teamcode.code.constants.Movement;
 import org.firstinspires.ftc.teamcode.code.constants.hardwareConsts.Arm;
 import org.firstinspires.ftc.teamcode.code.constants.hardwareConsts.Claw;
@@ -16,9 +15,8 @@ import org.firstinspires.ftc.teamcode.code.constants.hardwareConsts.Popper;
 import org.firstinspires.ftc.teamcode.code.constants.hardwareConsts.Slide;
 
 @TeleOp
-public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
+public class OnePlayerTele extends OpMode {
     private Consts consts;
-    private SlidePID slidePID;
     private Movement movement;
     private Arm arm;
     private Slide slide;
@@ -30,18 +28,11 @@ public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
 
     private ElapsedTime runtime;
 
-    private double driveSwitchTime = 0.;
-    private boolean robotCentricBool = false;
-
     private double motorPower = 1.;
-
-    private int slideTarget = 0;
 
     @Override
     public void init() {
-        telem = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         consts = new Consts(hardwareMap);
-        slidePID = new SlidePID(hardwareMap);
         movement = new Movement(hardwareMap);
         arm = new Arm(hardwareMap);
         slide = new Slide(hardwareMap);
@@ -49,11 +40,12 @@ public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
         popper = new Popper(hardwareMap);
         lights = new Lights(hardwareMap);
 
+        telem = new MultipleTelemetry(FtcDashboard.getInstance().getTelemetry(), telemetry);
+
         runtime = new ElapsedTime();
-        driveSwitchTime = 0;
 
         consts.setInit();
-        telem.addLine("Initialized.");
+        telem.addLine("Initialized");
         telem.update();
     }
 
@@ -63,10 +55,12 @@ public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
 
     @Override
     public void loop() {
-
-        // Player 1
-        if (gamepad1.y) {
-            slide.goUp();
+        // Only player
+        if (gamepad1.left_stick_button) {
+            movement.changeMode(runtime);
+        }
+        if (gamepad1.right_bumper) {
+            claw.switchPos(runtime);
         }
         if (gamepad1.a) {
             slide.goDown();
@@ -77,58 +71,29 @@ public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
         if (gamepad1.x){
             slide.hang();
         }
+        if (gamepad1.y) {
+            slide.goUp();
+        }
         if (gamepad1.dpad_left) {
             popper.goUp();
         }
         if (gamepad1.dpad_right) {
             popper.goDown();
         }
-        if (gamepad1.options) {
-            consts.imu.resetYaw();
-        }
-
-        if (gamepad1.right_bumper) {
-            movement.changeMode(runtime);
-        }
-
-
-        // Player 2
-        if(gamepad2.dpad_down){
+        if (gamepad1.dpad_down) {
             motorPower = arm.setGrab();
-            lights.lightStates = Lights.LightStates.CLAWDOWN;
         }
-        if(gamepad2.dpad_up){
+        if (gamepad1.dpad_up) {
             motorPower = arm.setRest();
-            lights.lightStates = Lights.LightStates.CLAWUP;
         }
-        if(gamepad2.y){
+        if (gamepad1.left_bumper) {
             motorPower = arm.setScore();
-            lights.lightStates = Lights.LightStates.SCORE;
         }
-//        if (gamepad2.right_bumper) {
-//            claw.switchPos(runtime);
-//        }
+        if (gamepad1.left_trigger >= 0.75) {
+            motorPower = arm.setLong();
+        }
 
-        if (gamepad2.left_bumper) {
-            slideTarget = 0;
-        }
-        if (gamepad2.right_bumper) {
-            slideTarget = 1000;
-        }
-        // Final things to update after every loop
+        // Final Updates
         movement.run(gamepad1, motorPower, telem);
-
-        slidePID.run(slideTarget);
-        telem.addData("Slide Target", slideTarget);
-        telem.addData("Slide Pos", slidePID.getCurrentPos());
-        telem.addData("Slide Power", slidePID.power);
-
-        lights.setLights();
-
-        telem.update();
-    }
-
-    public double getCurrentPos() {
-        return (consts.slideL.getCurrentPosition() + consts.slideR.getCurrentPosition()) / 2.;
     }
 }

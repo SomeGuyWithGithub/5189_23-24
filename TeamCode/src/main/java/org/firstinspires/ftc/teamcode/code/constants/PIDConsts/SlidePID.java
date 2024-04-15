@@ -7,6 +7,8 @@ import org.firstinspires.ftc.teamcode.code.baseClasses.basePIDF;
 import org.firstinspires.ftc.teamcode.code.constants.Consts;
 
 public class SlidePID extends basePIDF {
+    Consts consts;
+
     public SlidePID(HardwareMap _hardwareMap) {
         consts = new Consts(_hardwareMap);
 
@@ -19,12 +21,10 @@ public class SlidePID extends basePIDF {
         controller = new PIDController(p, i, d);
     }
 
-
     @Override
     public double getCurrentPos() {
         return (consts.slideL.getCurrentPosition());
     }
-
 
     @Override
     protected void setMotors(double power) {

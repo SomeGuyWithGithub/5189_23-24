@@ -1,17 +1,19 @@
 package org.firstinspires.ftc.teamcode.code.constants;
 
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.code.teleop.MalciousTeleOP;
 
-public class TeleConsts {
+public class Movement {
     private static Consts consts;
 
-    public TeleConsts(HardwareMap _hardwareMap) {
+    private double driveSwitchTime = 0.;
+    private boolean robotCentricBool = false;
+
+    public Movement(HardwareMap _hardwareMap) {
         consts = new Consts(_hardwareMap);
     }
 
@@ -57,5 +59,17 @@ public class TeleConsts {
         consts.backLeft.setPower(backLeftPower * motorPower);
         consts.frontRight.setPower(frontRightPower * motorPower);
         consts.backRight.setPower(backRightPower * motorPower);
+    }
+
+    public final void changeMode(ElapsedTime runtime) {
+        if (runtime.seconds() - driveSwitchTime >= 0.15) {
+            robotCentricBool = !robotCentricBool;
+            driveSwitchTime = runtime.seconds();
+        }
+    }
+
+    public final void run(Gamepad gamepad, double power, MultipleTelemetry telem) {
+        if (robotCentricBool) {robotCentricDrive(gamepad, power, telem);}
+        else {fieldCentricDrive(gamepad, power, telem);}
     }
 }

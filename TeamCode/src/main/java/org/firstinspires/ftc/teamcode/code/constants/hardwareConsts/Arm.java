@@ -28,4 +28,10 @@ public class Arm {
         consts.joint.setPosition(0.31);
         return 0.55;
     }
+
+    public final double setLong() {
+        consts.arm.setPosition(1);
+        consts.joint.setPosition(0.35);
+        return 0.55;
+    }
 }
