@@ -7,8 +7,6 @@ import org.firstinspires.ftc.teamcode.code.baseClasses.basePIDF;
 import org.firstinspires.ftc.teamcode.code.constants.Consts;
 
 public class SlidePID extends basePIDF {
-    SlidePID slidePID;
-
     public SlidePID(HardwareMap _hardwareMap) {
         consts = new Consts(_hardwareMap);
 
@@ -24,17 +22,13 @@ public class SlidePID extends basePIDF {
 
     @Override
     public double getCurrentPos() {
-        return (consts.slideL.getCurrentPosition() + consts.slideR.getCurrentPosition()) / 2.;
+        return (consts.slideL.getCurrentPosition());
     }
 
 
     @Override
-    public void setMotors(int target) {
-        controller.setPID(p, i, d);
-
-        double power = slidePID.getPower(target);
-
-        consts.slideR.setPower(power);
+    protected void setMotors(double power) {
         consts.slideL.setPower(power);
+        consts.slideR.setPower(power);
     }
 }

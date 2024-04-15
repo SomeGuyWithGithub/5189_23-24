@@ -9,7 +9,7 @@ public class Lights {
     public enum LightStates {
         ENDGAME,
         SCORE,
-        GRAB,
+        CLOSE,
         OPEN,
         CLAWDOWN,
         CLAWUP,
@@ -30,7 +30,7 @@ public class Lights {
         switch (lightStates) {
             case INITIALIZE:
                 consts.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.HOT_PINK);
-            case GRAB:
+            case CLOSE:
                 consts.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
             case OPEN:
                 consts.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);

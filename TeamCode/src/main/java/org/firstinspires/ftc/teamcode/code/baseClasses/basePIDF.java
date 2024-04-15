@@ -4,22 +4,22 @@ import com.arcrobotics.ftclib.controller.PIDController;
 
 import org.firstinspires.ftc.teamcode.code.constants.Consts;
 
-public class basePIDF {
-    protected static Consts consts;
-    public static double p, i, d, f;
-    protected static double ticksPerDegree;
+public abstract class basePIDF {
+    protected Consts consts;
+    protected double p, i, d, f;
+    protected double ticksPerDegree;
+    public double power;
     protected static PIDController controller;
 
-    public double getCurrentPos() {
-        return 0;
-    }
+    public abstract double getCurrentPos();
 
-    public void setMotors(int target) {}
+    protected abstract void setMotors(double power);
 
-    protected double getPower(int target) {
+    public void run(int target) {
         double pid = controller.calculate(getCurrentPos(), target);
         double ff = Math.cos(Math.toRadians(target / ticksPerDegree)) * f;
 
-        return pid + ff;
+        power = pid + ff;
+        setMotors(power);
     }
 }

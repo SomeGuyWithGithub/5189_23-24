@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.code.teleop;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -18,25 +17,23 @@ import org.firstinspires.ftc.teamcode.code.constants.hardwareConsts.Slide;
 
 @TeleOp
 public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
-    Consts consts;
-    SlidePID slidePID;
-    TeleConsts teleConsts;
-    Arm arm;
-    Slide slide;
-    Claw claw;
-    Popper popper;
-    Lights lights;
+    private Consts consts;
+    private SlidePID slidePID;
+    private TeleConsts teleConsts;
+    private Arm arm;
+    private Slide slide;
+    private Claw claw;
+    private Popper popper;
+    private Lights lights;
 
-    MultipleTelemetry telem;
+    private MultipleTelemetry telem;
 
-    ElapsedTime runtime;
-    double driveSwitchTime;
-    boolean robotCentricBool;
+    private ElapsedTime runtime;
+
+    private double driveSwitchTime = 0.;
+    private boolean robotCentricBool = false;
 
     private double motorPower = 1.;
-    double p = 0.0089, i = 0, d = 0.0002, f = 0.024, ticksPerDegree = 537.7 / 360;
-
-    PIDController controller = new PIDController(p, i, d);
 
     private int slideTarget = 0;
 
@@ -44,7 +41,7 @@ public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
     public void init() {
         telem = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         consts = new Consts(hardwareMap);
-//        slidePID = new SlidePID(hardwareMap);
+        slidePID = new SlidePID(hardwareMap);
         teleConsts = new TeleConsts(hardwareMap);
         arm = new Arm(hardwareMap);
         slide = new Slide(hardwareMap);
@@ -62,13 +59,6 @@ public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
 
     @Override
     public void loop() {
-//        double pid = controller.calculate(getCurrentPos(), slideTarget);
-//        double ff = Math.cos(Math.toRadians(slideTarget / ticksPerDegree)) * f;
-//
-//        double power =  pid + ff;
-//
-//        consts.slideR.setPower(power);
-//        consts.slideL.setPower(power);
 
         // Player 1
         if (gamepad1.y) {
@@ -114,14 +104,21 @@ public class TeleGoOPAUGHGHGHGHGHHGHGHGH extends OpMode {
             motorPower = arm.setScore();
             lights.lightStates = Lights.LightStates.SCORE;
         }
-        if(gamepad2.right_bumper){
-            claw.setGrab();
-            lights.lightStates = Lights.LightStates.GRAB;
+//        if (gamepad2.right_bumper) {
+//            claw.switchPos(runtime);
+//        }
+
+        if (gamepad2.left_bumper) {
+            slideTarget = 0;
         }
-        if(gamepad2.left_bumper){
-            claw.setRelease();
-            lights.lightStates = Lights.LightStates.OPEN;
+        if (gamepad2.right_bumper) {
+            slideTarget = 1000;
         }
+        // Final things to update after every loop
+        slidePID.run(slideTarget);
+        telem.addData("Slide Target", slideTarget);
+        telem.addData("Slide Pos", slidePID.getCurrentPos());
+        telem.addData("Slide Power", slidePID.power);
 
         lights.setLights();
 
